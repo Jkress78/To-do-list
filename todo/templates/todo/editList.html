@@ -1,0 +1,35 @@
+{% extends "todo/base.html" %}
+{% load widget_tweaks %}
+    
+    {% block content %}
+    <div class="container ">
+        <br>
+        <div class="row">
+            <div class="col">
+            </div>
+
+            <div class="col text-center bg-body-secondary border border-light-border-subtle rounded-3">
+                <br>
+                <h1>Edit:  {{list.list_name}} </h1>
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label class="form-label">List Name:</lable>
+                    {% render_field form.list_name type="text" class+="form-control"%}
+                    <br>
+                    {% render_field form.cover_img type="file" class+="form-control"%}
+                    <br>
+
+                    <input type="submit" value="Save" class="btn btn-outline-success">
+                    
+                    <a href="{% url 'todo:listSelect' %}" class="btn btn-outline-danger"> Cancel </a>
+                    
+                </form>
+                <br>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <br>
+    </div>
+    {%endblock%}

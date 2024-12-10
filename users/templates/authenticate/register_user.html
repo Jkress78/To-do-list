@@ -1,0 +1,39 @@
+{% extends "authenticate/base.html" %}
+    {% load widget_tweaks %}
+    
+    {% block content %} 
+        <div class="conatiner">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col bg-body-secondary border border-light-border-subtle rounded-3">
+                    <br>
+                    <h1>Register</h1>
+                    <br>
+                    <form enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        {% render_field form.username type="text" placeholder="Username" class+="form-control"%}
+                        <br>
+                        {% render_field form.first_name type="text" placeholder="First Name" class+="form-control"%}
+                        <br>
+                        {% render_field form.last_name type="text" placeholder="Last Name" class+="form-control"%}
+                        <br>
+                        {% render_field form.email type="email" placeholder="Email" class+="form-control"%}
+                        <br>
+                        {% render_field form.password1 type="password" placeholder="Password" class+="form-control"%}
+                        <br>
+                        {% render_field form.password2 type="password" placeholder="Confirm Password" class+="form-control"%}
+                        <br>
+                        <label class="form-label">Profile Image</label>
+                        {% render_field form.prof_img type="file" placeholder="Profile Image" class+="form-control"%}
+                        <br>
+                        <input type="submit" value="Register" class="btn btn-outline-success">
+                        <a href="{%url 'users:login' %}" class="btn btn-outline-danger">Cancel</a>
+                    </form>
+                    <br>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+    {% endblock %}

@@ -1,0 +1,99 @@
+{% extends "todo/base.html" %}
+{% load widget_tweaks %}
+    
+    {% block content %}        
+    <div class="container ">
+        
+        <div class="row bg-body-secondary border border-light-border-subtle rounded-top-3 text-float-left">
+            <h1 class="col-6 ">{{user.username}}'s Lists</h1>
+        </div>
+
+        <div class="row text-center bg-body-secondary border border-light-border-subtle rounded-bottom-3">
+        {%if user.list_set.all%}
+        {% for list in user.list_set.all %}
+        
+            <form class="col-3  border border-light-border-subtle" action="{% url 'todo:listDetails' %}" method="POST">
+                <br>
+                {% csrf_token %}
+                <input type="hidden" name="list_id" value="{{list.id}}">
+                
+                <label for='list_id'><img src="{{list.cover_img.url}}"  class="rounded" style="height:75px; width:75px;"/></label>
+                <br>
+                <br>
+                <div class="btn-group" role="group">
+                    <input type="submit" value="{{list.list_name}}" class="btn btn-outline-primary">
+                
+                    <div class="btn-group">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        . . .
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{%url 'todo:editList' list.id%}">Edit</a></li>
+                                
+                            <li><a class="dropdown-item text-danger" href="{%url 'todo:deleteList' list.id%}">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br>
+            </form>
+            
+        
+        {%endfor%}
+            <div class="col-3 ">
+                <br>
+                <br>
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#listcreate">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                    New List
+                </button>
+            </div>
+        {%else%}
+            <div class="col ">
+                <br>
+                <h3>You have no existing lists.</h3>
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#listcreate">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                    New List
+                </button>
+                <br>
+                <br>
+            </div>
+        {%endif%}
+        </div>
+    </div>
+        
+
+        
+    <!-- Create Modal -->
+    <div class="modal fade" id="listcreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Create a New List</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% render_field form.list_name type="text" placeholder="List Name" class+="form-control"%}
+                    <br>
+                    <label class="form-label">Cover Image</label>
+                    {% render_field form.cover_img type="file" class+="form-control"%}
+                    <br>
+                    <input type="submit" value="Create" class="btn btn-outline-success">
+                    <br>
+                </form>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endblock %}

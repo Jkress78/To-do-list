@@ -1,0 +1,67 @@
+{% extends "todo/base.html" %}
+{% load widget_tweaks %}
+    
+    {% block content %}  
+    <div class="container text-center ">
+        <div class="row">
+            <div class="col">
+            </div>
+
+            <div class="col bg-body-secondary border border-light-border-subtle rounded-3">
+                <br>
+                <div><img src="{{user.userimg.prof_img.url}}" style="height:75px; width:75px;"/><h2> Username: {{user.username}}</h2></div>
+                
+                <div><p>Name: {{user.first_name}} {{user.last_name}}</p></div>
+                <div><p> Email: {{user.email}}</p></div>
+                
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editProf">edit</button>
+                <a href="{% url 'todo:listSelect' %}" class="btn btn-outline-primary"> Dashboard </a>
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Log out</a>
+                <br>
+                <br>
+            </div>
+
+            <div class="col">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editProf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Your Profile</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <br>
+                    <label class="form-label">First Name:</label>
+                    {% render_field form.first_name type="text" class+="form-control"%}
+                    <br>
+                    <label class="form-label">Last Name:</label>
+                    {% render_field form.last_name type="text" class+="form-control"%}
+                    <br>
+                    <label class="form-label">Email:</label>
+                    {% render_field form.email type="email" class+="form-control"%}
+                    <br>
+                    <label class="form-label">Profile Image:</label>
+                    {% render_field form.prof_img type="file" class+="form-control"%}
+                    <br>
+
+                    <input type="submit" value="Save" class="btn btn-outline-success">
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endblock %}
+
+        

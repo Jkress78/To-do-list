@@ -1,0 +1,36 @@
+{% extends "authenticate/base.html" %}
+
+    
+    {% block content %}   
+        <div class="conatiner-sm text-center" >
+            <br>
+            <br>
+            <div class="row">
+                <div class="col">
+                </div>
+
+                <div class="col bg-body-secondary border border-light-border-subtle rounded-3"> 
+                    <h1>ToDo Login</h1>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                        <div class="row mb-3">
+                            <ul class="text-danger-emphasis"> {{message}} </ul>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <input type="text" class="form-control" name="userEmail" placeholder="Username">
+                        <br>
+                        <input type="password" class="form-control" name="userPswd" placeholder="Password">
+                        <br>
+                        <input type="submit" value="Login" class=" btn btn-outline-success">
+                        <a href="{% url 'users:register_user' %}" >Don't have an account?</a>
+                    </form>        
+                    <br>
+                </div>
+
+                <div class="col">
+                </div>
+            </div>
+        </div>
+    {% endblock %}
